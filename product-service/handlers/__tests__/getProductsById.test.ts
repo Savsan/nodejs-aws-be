@@ -1,4 +1,5 @@
 import { getProductsById } from '../getProductsById';
+import { DEFAULT_HEADERS } from '../constants';
 
 const eventMock = {
     body: undefined,
@@ -21,6 +22,7 @@ describe('getProductsById handler', () => {
     test('returns STATUS CODE 200 with product', async () => {
         const expectedResult = {
             statusCode: 200,
+            headers: DEFAULT_HEADERS,
             body: JSON.stringify({
                 count: 4,
                 description: 'Description',
@@ -37,6 +39,7 @@ describe('getProductsById handler', () => {
     test('returns STATUS CODE 404 with appropriate message when product was not fount', async () => {
         const expectedResult = {
             statusCode: 404,
+            headers: DEFAULT_HEADERS,
             body: JSON.stringify({
                 message: 'Requested product is not exist.',
             }),
