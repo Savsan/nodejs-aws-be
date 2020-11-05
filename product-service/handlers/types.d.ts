@@ -5,3 +5,15 @@ export interface IProducts {
     price: number;
     title: string;
 }
+
+export interface IDbConfig {
+    user: string;
+    password: string;
+    host: string;
+    database: string;
+    port: string;
+    ssl: {
+        rejectUnauthorized: boolean;
+    };
+    statement_timeout: number;
+}

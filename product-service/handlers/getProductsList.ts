@@ -2,12 +2,12 @@ import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
 import { Client } from 'pg';
 
-import { retrieveProducts, createDbConfig } from './helpers';
+import { retrieveProducts, createDbConfig, logErrorRelatedData } from './helpers';
 const client = new Client(createDbConfig());
 
 import { DEFAULT_HEADERS } from './constants';
 
-export const getProductsList: APIGatewayProxyHandler = async () => {
+export const getProductsList: APIGatewayProxyHandler = async (event) => {
     try {
         await client.connect();
         const result = await retrieveProducts(3500);
@@ -18,6 +18,8 @@ export const getProductsList: APIGatewayProxyHandler = async () => {
             body: JSON.stringify(result),
         };
     } catch (error) {
+        logErrorRelatedData({ event, error });
+
         return {
             statusCode: 500,
             headers: DEFAULT_HEADERS,
@@ -25,5 +27,7 @@ export const getProductsList: APIGatewayProxyHandler = async () => {
                 message: 'Internal server error.',
             }),
         };
+    } finally {
+        client.end();
     }
 };
