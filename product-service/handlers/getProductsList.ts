@@ -1,12 +1,15 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
+import { Client } from 'pg';
 
-import { retrieveProducts } from './helpers';
+import { retrieveProducts, createDbConfig } from './helpers';
+const client = new Client(createDbConfig());
 
 import { DEFAULT_HEADERS } from './constants';
 
 export const getProductsList: APIGatewayProxyHandler = async () => {
     try {
+        await client.connect();
         const result = await retrieveProducts(3500);
 
         return {
