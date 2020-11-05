@@ -1,4 +1,6 @@
 import type { Serverless } from 'serverless/aws';
+import dotenv from 'dotenv'
+dotenv.config();
 
 const serverlessConfiguration: Serverless = {
   service: {
@@ -15,14 +17,16 @@ const serverlessConfiguration: Serverless = {
     }
   },
   // Add the serverless-webpack plugin
-  plugins: ['serverless-webpack'],
+  plugins: [
+    'serverless-webpack',
+  ],
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
-    region: 'eu-west-1',
+    region: process.env.REGION,
     profile: 'njsprogram',
-    stage: 'production',
-    apiName: 'product-service-API',
+    stage: process.env.STAGE,
+    apiName: `product-service-${process.env.STAGE}-API`,
     apiGateway: {
       minimumCompressionSize: 1024,
     },
