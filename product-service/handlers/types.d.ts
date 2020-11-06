@@ -17,3 +17,5 @@ export interface IDbConfig {
     };
     statement_timeout: number;
 }
+
+export type GetProductByIdQueryType = Array<string, [string]>;

@@ -1,10 +1,4 @@
-import productList from '../data/productList.json';
-
-import { IProducts, IDbConfig } from './types';
-
-export const retrieveProducts = async (delay: number): Promise<IProducts[]> => {
-    return new Promise((resolve) => setTimeout(() => resolve(productList), delay));
-};
+import { IDbConfig } from './types';
 
 export const createDbConfig = (): IDbConfig => {
     return {

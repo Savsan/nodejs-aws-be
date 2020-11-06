@@ -1,33 +1,38 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
-import { find } from 'lodash';
+import { Client } from 'pg';
 
-import { retrieveProducts } from './helpers';
+import { createDbConfig, logErrorRelatedData } from './helpers';
+import { createGetProductByIdQuery } from './queries';
+
 import { DEFAULT_HEADERS } from './constants';
 
-export const getProductsById: APIGatewayProxyHandler = async (event, _context) => {
+export const getProductsById: APIGatewayProxyHandler = async (event) => {
     const { productId } = event.pathParameters;
+    const client = new Client(createDbConfig());
 
     try {
-        const productList = await retrieveProducts(2000);
-        const product = find(productList, (product) => product.id === productId);
+        await client.connect();
+        const { rows: product } = await client.query(...createGetProductByIdQuery(productId));
 
-        if (product) {
+        if (product[0]) {
             return {
                 statusCode: 200,
                 headers: DEFAULT_HEADERS,
-                body: JSON.stringify(product),
+                body: JSON.stringify(product[0]),
             };
-        } else {
-            throw 'Requested product is not exist.';
         }
     } catch (error) {
+        logErrorRelatedData({ event, error });
+
         return {
-            statusCode: 404,
+            statusCode: 500,
             headers: DEFAULT_HEADERS,
             body: JSON.stringify({
-                message: error,
+                message: 'Internal server error',
             }),
         };
+    } finally {
+        client.end();
     }
 };
