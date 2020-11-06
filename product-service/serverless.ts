@@ -27,18 +27,16 @@ const serverlessConfiguration: Serverless = {
     profile: 'njsprogram',
     stage: process.env.STAGE,
     apiName: `product-service-${process.env.STAGE}-API`,
-    environment: {
-      DB_HOST: process.env.DB_HOST,
-      DB_PORT: process.env.DB_PORT,
-      DB_NAME: process.env.DB_NAME,
-      DB_USERNAME: process.env.DB_USERNAME,
-      DB_PASSWORD: process.env.DB_PASSWORD,
-    },
     apiGateway: {
       minimumCompressionSize: 1024,
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      DB_HOST: process.env.DB_HOST,
+      DB_PORT: process.env.DB_PORT,
+      DB_NAME: process.env.DB_NAME,
+      DB_USERNAME: process.env.DB_USERNAME,
+      DB_PASSWORD: process.env.DB_PASSWORD,
     },
   },
   functions: {

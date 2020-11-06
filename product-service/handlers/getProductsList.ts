@@ -2,7 +2,9 @@ import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
 import { Client } from 'pg';
 
-import { retrieveProducts, createDbConfig, logErrorRelatedData } from './helpers';
+import { createDbConfig, logErrorRelatedData } from './helpers';
+import { createGetProductListQuery } from './queries';
+
 const client = new Client(createDbConfig());
 
 import { DEFAULT_HEADERS } from './constants';
@@ -10,7 +12,7 @@ import { DEFAULT_HEADERS } from './constants';
 export const getProductsList: APIGatewayProxyHandler = async (event) => {
     try {
         await client.connect();
-        const result = await retrieveProducts(3500);
+        const { rows: result } = await client.query(createGetProductListQuery());
 
         return {
             statusCode: 200,
