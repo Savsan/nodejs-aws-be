@@ -19,7 +19,7 @@ export const logErrorRelatedData = ({ event, error }) => {
     console.log('EVENT: ', event);
 };
 
-export const validateAddProductBodyParams = (body: IAddProductBody): boolean => {
+export const isAddProductBodyParamsValid = (body: IAddProductBody): boolean => {
     const { title, description, price, count } = body;
 
     return !(!title || !description || !price || !count);

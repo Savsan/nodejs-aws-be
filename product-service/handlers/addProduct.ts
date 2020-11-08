@@ -2,7 +2,7 @@ import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
 import { Client } from 'pg';
 
-import { createDbConfig, logErrorRelatedData, validateAddProductBodyParams } from './helpers';
+import { createDbConfig, logErrorRelatedData, isAddProductBodyParamsValid } from './helpers';
 import { createAddProductQuery, createAddStockQuery } from './queries';
 
 import { DEFAULT_HEADERS, BEGIN_DB_TRANSACTION, COMMIT_DB_TRANSACTION, ROLLBACK_DB_TRANSACTION } from './constants';
@@ -12,7 +12,7 @@ export const addProduct: APIGatewayProxyHandler = async (event) => {
     console.log('EVENT_LOG: ', event);
     try {
         const body = JSON.parse(event.body);
-        const isBodyParamsValid = validateAddProductBodyParams(body);
+        const isBodyParamsValid = isAddProductBodyParamsValid(body);
 
         if (isBodyParamsValid) {
             const { title, description, price, count } = body;
