@@ -1,4 +1,4 @@
-import { IDbConfig } from './types';
+import { IDbConfig, IAddProductBody } from './types';
 
 export const createDbConfig = (): IDbConfig => {
     return {
@@ -17,4 +17,10 @@ export const createDbConfig = (): IDbConfig => {
 export const logErrorRelatedData = ({ event, error }) => {
     console.log('ERROR: ', error);
     console.log('EVENT: ', event);
+};
+
+export const validateAddProductBodyParams = (body: IAddProductBody): boolean => {
+    const { title, description, price, count } = body;
+
+    return !(!title || !description || !price || !count);
 };

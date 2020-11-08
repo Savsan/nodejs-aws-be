@@ -1,7 +1,6 @@
-export interface IProducts {
+export interface IAddProductBody {
     count: number;
     description: string;
-    id: string;
     price: number;
     title: string;
 }
@@ -18,4 +17,15 @@ export interface IDbConfig {
     statement_timeout: number;
 }
 
-export type GetProductByIdQueryType = Array<string, [string]>;
+export interface IAddProductQueryParams {
+    title: string;
+    description: string;
+    price: number;
+}
+
+export interface IAddStockQueryParams {
+    id: number;
+    count: number;
+}
+
+export type ProductQueryWithParamsType = Array<string, [string]>;

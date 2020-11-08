@@ -9,7 +9,7 @@ import { DEFAULT_HEADERS } from './constants';
 
 export const getProductsList: APIGatewayProxyHandler = async (event) => {
     const client = new Client(createDbConfig());
-
+    console.log('EVENT_LOG: ', event);
     try {
         await client.connect();
         const { rows: result } = await client.query(createGetProductListQuery());
