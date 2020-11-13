@@ -32,9 +32,15 @@ const serverlessConfiguration: Serverless = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      REGION: process.env.REGION,
       BUCKET_NAME: process.env.BUCKET_NAME,
     },
     iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: 's3:ListBucket',
+        Resource: 'arn:aws:s3:::import-service-production-bucket'
+      },
       {
         Effect: 'Allow',
         Action: 's3:*',

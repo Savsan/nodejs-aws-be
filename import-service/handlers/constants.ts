@@ -4,3 +4,4 @@ export const DEFAULT_HEADERS = {
 };
 
 export const UPLOAD_FOLDER_NAME = 'uploaded';
+export const PARSED_FOLDER_NAME = 'parsed';
