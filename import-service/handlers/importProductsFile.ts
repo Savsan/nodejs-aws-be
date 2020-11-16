@@ -34,9 +34,9 @@ export const importProductsFile: APIGatewayProxyHandler = async (event) => {
         return {
             statusCode: 500,
             headers: DEFAULT_HEADERS,
-            body: {
+            body: JSON.stringify({
                 message: 'Internal server error.',
-            },
+            }),
         };
     }
 };

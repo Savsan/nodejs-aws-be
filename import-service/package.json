@@ -12,7 +12,6 @@
     "deploy": "npm run lint && sls deploy"
   },
   "dependencies": {
-    "@types/jest": "^26.0.15",
     "aws-sdk": "^2.790.0",
     "csv-parser": "^2.3.3",
     "dotenv": "^8.2.0",
@@ -21,6 +20,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@types/aws-lambda": "^8.10.17",
+    "@types/jest": "^26.0.15",
     "@types/serverless": "^1.72.5",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
