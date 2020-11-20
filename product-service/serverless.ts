@@ -38,6 +38,23 @@ const serverlessConfiguration: Serverless = {
       DB_USERNAME: process.env.DB_USERNAME,
       DB_PASSWORD: process.env.DB_PASSWORD,
     },
+    // iamRoleStatements: [
+    //   {
+    //     Effect: 'Allow',
+    //     Action: 'sqs:*',
+    //     Resource: ['CatalogBatchQueue', 'Arn'],
+    //   },
+    // ],
+  },
+  resources: {
+    Resources: {
+      CatalogBatchQueue: {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: `${process.env.SQS_QUEUE_NAME}-${process.env.STAGE}`,
+        }
+      },
+    },
   },
   functions: {
     getProductsList: {
@@ -76,6 +93,19 @@ const serverlessConfiguration: Serverless = {
         }
       ]
     },
+    // catalogBatchProcess: {
+    //   handler: 'handler.catalogBatchProcess',
+    //   events: [
+    //     {
+    //       sqs: {
+    //         arn: '',
+    //         batchSize: 5,
+    //         maximumRetryAttempts: 10,
+    //         enabled: true
+    //       }
+    //     }
+    //   ]
+    // }
   }
 };
 
