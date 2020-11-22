@@ -8,12 +8,14 @@ import { DEFAULT_HEADERS } from './constants';
 
 export const addProduct: APIGatewayProxyHandler = async (event) => {
     console.log('EVENT_LOG: ', event);
+    const client = new DBClient();
+
     try {
-        const client = new DBClient();
         const body = JSON.parse(event.body);
         const isBodyParamsValid = isAddProductBodyParamsValid(body);
 
         if (isBodyParamsValid) {
+            await client.connect();
             await client.addProduct(body);
         } else {
             const error = {
@@ -45,5 +47,7 @@ export const addProduct: APIGatewayProxyHandler = async (event) => {
                 message: 'Internal server error.',
             }),
         };
+    } finally {
+        client.end();
     }
 };

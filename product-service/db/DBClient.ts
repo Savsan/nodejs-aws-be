@@ -17,6 +17,9 @@ export default class DBClient {
         this.client = new Client(createDbConfig());
     }
 
+    connect = () => this.client.connect();
+    end = () => this.client.end();
+
     addProduct = async (body: IAddProductBody): Promise<void> => {
         try {
             const { title, description, price, count } = body;
@@ -26,7 +29,6 @@ export default class DBClient {
                 price,
             };
 
-            await this.client.connect();
             await this.client.query(BEGIN_DB_TRANSACTION);
             const {
                 rows: [{ id }],
@@ -37,34 +39,26 @@ export default class DBClient {
             await this.client.query(ROLLBACK_DB_TRANSACTION);
 
             throw e;
-        } finally {
-            await this.client.end();
         }
     };
 
     getProductsList = async (): Promise<IAddProductBody[] | void> => {
         try {
-            await this.client.connect();
             const { rows: result } = await this.client.query(createGetProductListQuery());
 
             return result;
         } catch (e) {
             throw e;
-        } finally {
-            await this.client.end();
         }
     };
 
     getProductById = async (productId: string): Promise<IAddProductBody[] | void> => {
         try {
-            await this.client.connect();
             const { rows: product } = await this.client.query(...createGetProductByIdQuery(productId));
 
             return product;
         } catch (e) {
             throw e;
-        } finally {
-            await this.client.end();
         }
     };
 }

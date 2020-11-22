@@ -18,7 +18,10 @@ export const publishToImportProductsSnsTopic = ({ sns, products, status }): Prom
             Message: JSON.stringify(products),
             TopicArn: process.env.IMPORT_PRODUCT_SNS_TOPIC_ARN,
             MessageAttributes: {
-                status: status,
+                status: {
+                    DataType: 'String',
+                    StringValue: status,
+                },
             },
         })
         .promise();

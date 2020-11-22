@@ -9,12 +9,14 @@ import { DEFAULT_HEADERS } from './constants';
 
 export const catalogBatchProcess: APIGatewayProxyHandler = async (event) => {
     console.log('EVENT_LOG: ', event);
+    const client = new DBClient();
+
     try {
         const { REGION } = process.env;
         const addedProducts = [];
         const { Records } = event;
-        const client = new DBClient();
         const sns = new AWS.SNS({ region: REGION });
+        await client.connect();
 
         for (const record of Records) {
             const body = JSON.parse(record.body);
@@ -49,5 +51,7 @@ export const catalogBatchProcess: APIGatewayProxyHandler = async (event) => {
                 message: 'Internal server error.',
             }),
         };
+    } finally {
+        await client.end();
     }
 };
