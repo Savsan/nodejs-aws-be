@@ -10,3 +10,16 @@ export const isAddProductBodyParamsValid = (body: IAddProductBody): boolean => {
 
     return !(!title || !description || !price || !count);
 };
+
+export const publishToImportProductsSnsTopic = ({ sns, products, status }): Promise<any> => {
+    return sns
+        .publish({
+            Subject: `New products adding ${status}`,
+            Message: JSON.stringify(products),
+            TopicArn: process.env.IMPORT_PRODUCT_SNS_TOPIC_ARN,
+            MessageAttributes: {
+                status: status,
+            },
+        })
+        .promise();
+};

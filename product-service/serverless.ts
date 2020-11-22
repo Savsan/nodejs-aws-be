@@ -37,6 +37,9 @@ const serverlessConfiguration: Serverless = {
       DB_NAME: process.env.DB_NAME,
       DB_USERNAME: process.env.DB_USERNAME,
       DB_PASSWORD: process.env.DB_PASSWORD,
+      IMPORT_PRODUCT_SNS_TOPIC_ARN: {
+        Ref: 'importProductSnsTopic'
+      }
     },
     iamRoleStatements: [
       {
@@ -46,6 +49,13 @@ const serverlessConfiguration: Serverless = {
           'Fn::GetAtt': ['CatalogBatchQueue', 'Arn'],
         },
       },
+      {
+        Effect: 'Allow',
+        Action: 'sns:*',
+        Resource: {
+          Ref: 'importProductSnsTopic'
+        }
+      }
     ],
   },
   resources: {
@@ -57,6 +67,25 @@ const serverlessConfiguration: Serverless = {
           ReceiveMessageWaitTimeSeconds: 20,
         }
       },
+      importProductSnsTopic: {
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          TopicName: `${process.env.IMPORT_PRODUCT_SNS_TOPIC_NAME}-${process.env.STAGE}`,
+        }
+      },
+      importProductSnsSubscription: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Endpoint: 'vorobev.profi@gmail.com',
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'importProductSnsTopic'
+          },
+          FilterPolicy: {
+            status: ['SUCCESS']
+          }
+        }
+      }
     },
     Outputs: {
       CatalogBatchQueueUrl: {
