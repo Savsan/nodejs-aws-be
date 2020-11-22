@@ -54,6 +54,7 @@ const serverlessConfiguration: Serverless = {
         Type: 'AWS::SQS::Queue',
         Properties: {
           QueueName: `${process.env.SQS_QUEUE_NAME}-${process.env.STAGE}`,
+          ReceiveMessageWaitTimeSeconds: 20,
         }
       },
     },

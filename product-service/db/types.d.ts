@@ -1,10 +1,3 @@
-export interface IAddProductBody {
-    count: number;
-    description: string;
-    price: number;
-    title: string;
-}
-
 export interface IDbConfig {
     user: string;
     password: string;
@@ -15,6 +8,13 @@ export interface IDbConfig {
         rejectUnauthorized: boolean;
     };
     statement_timeout: number;
+}
+
+export interface IAddProductBody {
+    count: number;
+    description: string;
+    price: number;
+    title: string;
 }
 
 export interface IAddProductQueryParams {
