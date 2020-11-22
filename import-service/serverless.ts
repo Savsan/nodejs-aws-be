@@ -34,6 +34,9 @@ const serverlessConfiguration: Serverless = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       REGION: process.env.REGION,
       BUCKET_NAME: process.env.BUCKET_NAME,
+      SQS_CATALOG_BATCH_QUEUE_URL: {
+        'Fn::ImportValue': 'CatalogBatchQueueUrl'
+      }
     },
     iamRoleStatements: [
       {
@@ -45,6 +48,13 @@ const serverlessConfiguration: Serverless = {
         Effect: 'Allow',
         Action: 's3:*',
         Resource: 'arn:aws:s3:::import-service-production-bucket/*'
+      },
+      {
+        Effect: 'Allow',
+        Action: 'sqs:*',
+        Resource: {
+          'Fn::ImportValue': 'CatalogBatchQueueArn'
+        }
       },
     ]
   },

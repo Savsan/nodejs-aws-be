@@ -57,6 +57,24 @@ const serverlessConfiguration: Serverless = {
         }
       },
     },
+    Outputs: {
+      CatalogBatchQueueUrl: {
+        Value: {
+          Ref: 'CatalogBatchQueue'
+        },
+        Export: {
+          Name: 'CatalogBatchQueueUrl'
+        }
+      },
+      CatalogBatchQueueArn: {
+        Value: {
+          'Fn::GetAtt': ['CatalogBatchQueue', 'Arn'],
+        },
+        Export: {
+          Name: 'CatalogBatchQueueArn'
+        }
+      },
+    },
   },
   functions: {
     getProductsList: {
