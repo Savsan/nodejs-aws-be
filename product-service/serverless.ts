@@ -38,13 +38,15 @@ const serverlessConfiguration: Serverless = {
       DB_USERNAME: process.env.DB_USERNAME,
       DB_PASSWORD: process.env.DB_PASSWORD,
     },
-    // iamRoleStatements: [
-    //   {
-    //     Effect: 'Allow',
-    //     Action: 'sqs:*',
-    //     Resource: ['CatalogBatchQueue', 'Arn'],
-    //   },
-    // ],
+    iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: 'sqs:*',
+        Resource: {
+          'Fn::GetAtt': ['CatalogBatchQueue', 'Arn'],
+        },
+      },
+    ],
   },
   resources: {
     Resources: {
@@ -93,19 +95,20 @@ const serverlessConfiguration: Serverless = {
         }
       ]
     },
-    // catalogBatchProcess: {
-    //   handler: 'handler.catalogBatchProcess',
-    //   events: [
-    //     {
-    //       sqs: {
-    //         arn: '',
-    //         batchSize: 5,
-    //         maximumRetryAttempts: 10,
-    //         enabled: true
-    //       }
-    //     }
-    //   ]
-    // }
+    catalogBatchProcess: {
+      handler: 'handler.catalogBatchProcess',
+      events: [
+        {
+          sqs: {
+            arn: {
+              'Fn::GetAtt': ['CatalogBatchQueue', 'Arn'],
+            },
+            batchSize: 5,
+            enabled: true
+          }
+        }
+      ]
+    }
   }
 };
 
