@@ -15,7 +15,8 @@
     "@types/jest": "^26.0.15",
     "dotenv": "^8.2.0",
     "pg": "^8.4.2",
-    "source-map-support": "^0.5.10"
+    "source-map-support": "^0.5.10",
+    "aws-sdk": "^2.790.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

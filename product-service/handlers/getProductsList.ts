@@ -1,18 +1,18 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
-import { Client } from 'pg';
+import { DBClient } from '../db';
 
-import { createDbConfig, logErrorRelatedData } from './helpers';
-import { createGetProductListQuery } from './queries';
+import { logErrorRelatedData } from './helpers';
 
 import { DEFAULT_HEADERS } from './constants';
 
 export const getProductsList: APIGatewayProxyHandler = async (event) => {
-    const client = new Client(createDbConfig());
     console.log('EVENT_LOG: ', event);
+    const client = new DBClient();
+
     try {
         await client.connect();
-        const { rows: result } = await client.query(createGetProductListQuery());
+        const result = await client.getProductsList();
 
         return {
             statusCode: 200,
