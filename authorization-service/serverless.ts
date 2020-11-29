@@ -26,10 +26,6 @@ const serverlessConfiguration: Serverless = {
     region: process.env.REGION,
     profile: 'njsprogram',
     stage: process.env.STAGE,
-    apiName: `import-service-${process.env.STAGE}-API`,
-    apiGateway: {
-      minimumCompressionSize: 1024,
-    },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       REGION: process.env.REGION,
