@@ -1,0 +1,41 @@
+{
+  "name": "import-service",
+  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "description": "Serverless webpack example using Typescript",
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "handler.js",
+  "scripts": {
+    "test": "./node_modules/.bin/jest --bail --silent --passWithNoTests",
+    "lint": "eslint '*/**/*.{js,ts}' --quiet",
+    "lint:write": "eslint '*/**/*.{js,ts}' --quiet --fix",
+    "deploy": "npm run lint && sls deploy"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.790.0",
+    "dotenv": "^8.2.0",
+    "source-map-support": "^0.5.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@types/aws-lambda": "^8.10.17",
+    "@types/jest": "^26.0.15",
+    "@types/serverless": "^1.72.5",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "@typescript-eslint/parser": "^4.6.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "fork-ts-checker-webpack-plugin": "^3.0.1",
+    "husky": "^4.3.0",
+    "jest": "^26.6.1",
+    "lint-staged": ">=10",
+    "prettier": "^2.1.2",
+    "serverless-webpack": "^5.2.0",
+    "ts-jest": "^26.4.3",
+    "ts-loader": "^5.3.3",
+    "typescript": "^4.0.5",
+    "webpack": "^4.29.0",
+    "webpack-node-externals": "^1.7.2"
+  }
+}

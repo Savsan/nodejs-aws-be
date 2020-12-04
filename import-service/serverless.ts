@@ -36,7 +36,7 @@ const serverlessConfiguration: Serverless = {
       BUCKET_NAME: process.env.BUCKET_NAME,
       SQS_CATALOG_BATCH_QUEUE_URL: {
         'Fn::ImportValue': 'CatalogBatchQueueUrl'
-      }
+      },
     },
     iamRoleStatements: [
       {
@@ -58,6 +58,36 @@ const serverlessConfiguration: Serverless = {
       },
     ]
   },
+  resources: {
+    Resources: {
+      GatewayResponseDenied: {
+        Type: 'AWS::ApiGateway::GatewayResponse',
+        Properties: {
+          ResponseParameters: {
+            'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
+            'gatewayresponse.header.Access-Control-Allow-Credentials': "'true'"
+          },
+          ResponseType: 'ACCESS_DENIED',
+          RestApiId: {
+            Ref: 'ApiGatewayRestApi',
+          }
+        }
+      },
+      GatewayResponseUnauthorized: {
+        Type: 'AWS::ApiGateway::GatewayResponse',
+        Properties: {
+          ResponseParameters: {
+            'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
+            'gatewayresponse.header.Access-Control-Allow-Credentials': "'true'"
+          },
+          ResponseType: 'UNAUTHORIZED',
+          RestApiId: {
+            Ref: 'ApiGatewayRestApi',
+          }
+        }
+      }
+    }
+  },
   functions: {
     importProductsFile: {
       handler: 'handler.importProductsFile',
@@ -73,6 +103,13 @@ const serverlessConfiguration: Serverless = {
                   name: true
                 }
               }
+            },
+            authorizer: {
+              name: 'basicAuthorizer',
+              arn: '${cf:authorization-service-' + `${process.env.STAGE}` + '.BasicAuthorizerLambdaFunctionQualifiedArn}',
+              resultTtlInSeconds: 0,
+              identitySource: 'method.request.header.Authorization',
+              type: 'token'
             }
           }
         }
