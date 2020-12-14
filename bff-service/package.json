@@ -19,13 +19,15 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "eb:create": "eb create bff-service-production --single --cname bff-service",
+    "eb:init": "eb init --region eu-west-1 --profile njsprogram",
+    "eb:create": "eb create bff-product-cart-service-production --single --cname savsan-bff-production",
     "eb:deploy": "eb deploy",
-    "eb:logs": "eb logs bff-service-develop",
+    "eb:logs": "eb logs bff-product-cart-service-production",
     "eb:terminate": "eb terminate"
   },
   "dependencies": {
     "@nestjs/common": "^7.5.1",
+    "@nestjs/config": "^0.5.0",
     "@nestjs/core": "^7.5.1",
     "@nestjs/platform-express": "^7.5.1",
     "axios": "^0.21.0",

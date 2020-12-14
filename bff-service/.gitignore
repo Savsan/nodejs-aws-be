@@ -1,7 +1,8 @@
 # compiled output
 /dist
 /node_modules
-
+# local
+.env
 # Logs
 logs
 *.log
@@ -32,3 +33,7 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
