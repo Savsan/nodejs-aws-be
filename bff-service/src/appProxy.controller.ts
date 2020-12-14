@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, All, Request } from '@nestjs/common';
 import { AppProxyService } from './appProxy.service';
 
 @Controller()
@@ -7,8 +7,8 @@ export class AppProxyController {
     private readonly appProxyService: AppProxyService
   ) {}
 
-  @Get()
-  getResource(): string {
-    return this.appProxyService.getResource();
+  @All()
+  getResource(@Request() req): Promise<object> {
+    return this.appProxyService.getResource(req);
   }
 }
